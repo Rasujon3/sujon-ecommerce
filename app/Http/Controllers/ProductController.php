@@ -13,51 +13,38 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-
-
     public function WishList()
     {
         return view('pages.wish-list-page');
     }
-
-
     public function CartListPage()
     {
         return view('pages.cart-list-page');
     }
-
-
     public function Details()
     {
         return view('pages.details-page');
     }
-
-
     public function ListProductByCategory(Request $request):JsonResponse{
         $data=Product::where('category_id',$request->id)->with('brand','category')->get();
         return ResponseHelper::Out('success',$data,200);
     }
-
     public function ListProductByRemark(Request $request):JsonResponse{
         $data=Product::where('remark',$request->remark)->with('brand','category')->get();
         return ResponseHelper::Out('success',$data,200);
     }
-
     public function ListProductByBrand(Request $request):JsonResponse{
         $data=Product::where('brand_id',$request->id)->with('brand','category')->get();
         return ResponseHelper::Out('success',$data,200);
     }
-
     public function ListProductSlider():JsonResponse{
         $data=ProductSlider::all();
         return ResponseHelper::Out('success',$data,200);
     }
-
     public function ProductDetailsById(Request $request):JsonResponse{
         $data=ProductDetails::where('product_id',$request->id)->with('product','product.brand','product.category')->get();
         return ResponseHelper::Out('success',$data,200);
     }
-
     public function ListReviewByProduct(Request $request):JsonResponse{
         $data=ProductReview::where('product_id',$request->product_id)
             ->with(['profile'=>function($query){
@@ -65,35 +52,27 @@ class ProductController extends Controller
             }])->get();
         return ResponseHelper::Out('success',$data,200);
     }
-
-
-
     public function CreateProductReview(Request $request):JsonResponse{
-        $user_id=$request->header('id');
-        $profile=CustomerProfile::where('user_id',$user_id)->first();
+        $user_id = $request->header('id');
+        $profile = CustomerProfile::where('user_id',$user_id)->first();
 
-        if($profile){
-            $request->merge(['customer_id' =>$profile->id]);
-            $data=ProductReview::updateOrCreate(
-                ['customer_id' => $profile->id,'product_id'=>$request->input('product_id')],
+        if($profile) {
+            $request->merge(['customer_id' => $profile->id]);
+            $data = ProductReview::updateOrCreate(
+                ['customer_id' => $profile->id, 'product_id' => $request->input('product_id')],
                 $request->input()
             );
             return ResponseHelper::Out('success',$data,200);
         }
-        else{
+        else {
             return ResponseHelper::Out('fail','Customer profile not exists',200);
         }
-
     }
-
-
-
     public function ProductWishList(Request $request):JsonResponse{
         $user_id=$request->header('id');
         $data=ProductWish::where('user_id',$user_id)->with('product')->get();
         return ResponseHelper::Out('success',$data,200);
     }
-
     public function CreateWishList(Request $request):JsonResponse{
         $user_id=$request->header('id');
         $data=ProductWish::updateOrCreate(
@@ -102,14 +81,11 @@ class ProductController extends Controller
         );
         return ResponseHelper::Out('success',$data,200);
     }
-
-
     public function RemoveWishList(Request $request):JsonResponse{
         $user_id=$request->header('id');
         $data=ProductWish::where(['user_id' => $user_id,'product_id'=>$request->product_id])->delete();
         return ResponseHelper::Out('success',$data,200);
     }
-
     public function CreateCartList(Request $request):JsonResponse{
         $user_id=$request->header('id');
         $product_id =$request->input('product_id');
@@ -128,7 +104,6 @@ class ProductController extends Controller
         }
         $totalPrice=$qty*$UnitPrice;
 
-
         $data=ProductCart::updateOrCreate(
             ['user_id' => $user_id,'product_id'=>$product_id],
             [
@@ -143,22 +118,14 @@ class ProductController extends Controller
 
         return ResponseHelper::Out('success',$data,200);
     }
-
-
-
     public function CartList(Request $request):JsonResponse{
         $user_id=$request->header('id');
         $data=ProductCart::where('user_id',$user_id)->with('product')->get();
         return ResponseHelper::Out('success',$data,200);
     }
-
-
-
     public function DeleteCartList(Request $request):JsonResponse{
         $user_id=$request->header('id');
         $data=ProductCart::where('user_id','=',$user_id)->where('product_id','=',$request->product_id)->delete();
         return ResponseHelper::Out('success',$data,200);
     }
-
-
 }
