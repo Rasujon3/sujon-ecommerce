@@ -52,35 +52,20 @@ class SSLCommerz
           return $ssl;
       }
     }
-
-
-
     static function InitiateSuccess($tran_id):int {
-        Invoice::where(['tran_id' => $tran_id,'val_id' => 0])->update(['payment_status' => 'Success']);
+        Invoice::where(['tran_id' => $tran_id, 'val_id' => 0])->update(['payment_status' => 'Success']);
         return 1;
     }
-
-
-
-
-
-
-
-
-    static function InitiateFail($tran_id):int{
-       Invoice::where(['tran_id'=>$tran_id,'val_id'=>0])->update(['payment_status'=>'Fail']);
+    static function InitiateFail($tran_id):int {
+       Invoice::where(['tran_id' => $tran_id, 'val_id' => 0])->update(['payment_status' => 'Fail']);
        return 1;
     }
-
-
-
-    static function InitiateCancel($tran_id):int{
-        Invoice::where(['tran_id'=>$tran_id,'val_id'=>0])->update(['payment_status'=>'Cancel']);
+    static function InitiateCancel($tran_id):int {
+        Invoice::where(['tran_id' => $tran_id, 'val_id' => 0])->update(['payment_status' => 'Cancel']);
         return 1;
     }
-
-    static function InitiateIPN($tran_id,$status,$val_id):int{
-        Invoice::where(['tran_id'=>$tran_id,'val_id'=>0])->update(['payment_status'=>$status,'val_id'=>$val_id]);
+    static function InitiateIPN($tran_id, $status, $val_id):int {
+        Invoice::where(['tran_id' => $tran_id, 'val_id' => 0])->update(['payment_status' => $status, 'val_id' => $val_id]);
         return 1;
     }
 }
