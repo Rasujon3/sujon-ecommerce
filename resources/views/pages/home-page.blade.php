@@ -7,6 +7,7 @@
     @include('component.TopBrands')
     @include('component.Footer')
     <script>
+        // using IIF function
         (async () => {
             await Category();
             await Hero();

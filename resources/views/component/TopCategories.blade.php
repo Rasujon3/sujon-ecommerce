@@ -10,18 +10,16 @@
         </div>
         <div id="TopCategoryItem" class="row align-items-center">
 
-
         </div>
     </div>
 </div>
 
 
 <script>
-
     async function TopCategory(){
-        let res=await axios.get("/CategoryList");
-        $("#TopCategoryItem").empty()
-        res.data['data'].forEach((item,i)=>{
+        let res = await axios.get("/CategoryList");
+        $("#TopCategoryItem").empty();
+        res.data['data'].forEach((item, i)=>{
             let EachItem= `<div class="p-2 col-2">
                 <div class="item">
                     <div class="categories_box">

@@ -31,14 +31,10 @@
                     <div class="tab-pane fade show active" id="Popular" role="tabpanel" aria-labelledby="arrival-tab">
                         <div id="PopularItem" class="row shop_container">
 
-
-
-
                         </div>
                     </div>
                     <div class="tab-pane fade" id="New" role="tabpanel" aria-labelledby="sellers-tab">
                         <div id="NewItem"  class="row shop_container">
-
 
                         </div>
                     </div>
@@ -66,16 +62,15 @@
 
 <script>
 
-
-    async function Popular(){
-        let res=await axios.get("/ListProductByRemark/popular");
+    async function Popular() {
+        let res = await axios.get("/ListProductByRemark/popular");
         $("#PopularItem").empty();
         res.data['data'].forEach((item,i)=>{
-            let EachItem=`<div class="col-lg-3 col-md-4 col-6">
+            let EachItem = `<div class="col-lg-3 col-md-4 col-6">
                                 <div class="product">
                                     <div class="product_img">
                                         <a href="#">
-                                            <img src="${item['image']}" alt="product_img9">
+                                            <img src="${item['image']}" alt="${item['title']}">
                                         </a>
                                         <div class="product_action_box">
                                             <ul class="list_none pr_action_btn">
@@ -100,7 +95,6 @@
         })
 
     }
-
 
     async function New (){
         let res=await axios.get("/ListProductByRemark/new");
@@ -136,7 +130,6 @@
             $("#NewItem").append(EachItem);
         })
     }
-
 
     async function Top(){
         let res=await axios.get("/ListProductByRemark/top");
@@ -174,8 +167,6 @@
         })
     }
 
-
-
     async function Special(){
         let res=await axios.get("/ListProductByRemark/special");
         $("#SpecialItem").empty();
@@ -212,8 +203,6 @@
 
         })
     }
-
-
 
     async function Trending(){
         let res=await axios.get("/ListProductByRemark/trending");

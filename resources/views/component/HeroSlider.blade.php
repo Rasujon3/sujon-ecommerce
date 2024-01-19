@@ -11,12 +11,12 @@
     async function Hero() {
         let res = await axios.get("/ListProductSlider");
         $("#carouselSection").empty();
-        res.data['data'].forEach((item,i)=>{
+        res.data['data'].forEach((item, i)=>{
             let activeClass=''
-            if(i===0){
+            if(i === 0){
                 activeClass=' active '
             }
-            let SliderItem=`<div class="carousel-item  background_bg ${activeClass}" style="background-image: url('${item['image']}')">
+            let SliderItem = `<div class="carousel-item  background_bg ${activeClass}" style="background-image: url('${item['image']}')">
                 <div class="banner_slide_content">
                     <div class="container"><!-- STRART CONTAINER -->
                         <div class="row">
@@ -32,7 +32,7 @@
                 </div>
             </div>`
             $("#carouselSection").append(SliderItem)
-        })
+        });
     }
 </script>
 

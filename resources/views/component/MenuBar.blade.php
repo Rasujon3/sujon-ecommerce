@@ -5,8 +5,8 @@
                 <div class="col-md-6">
                     <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                         <ul class="contact_detail text-center text-lg-start">
-                            <li><i class="ti-mobile"></i><span>123-456-7890</span></li>
-                            <li><i class="ti-email"></i><span>info@apple.com</span></li>
+                            <li><i class="ti-mobile"></i><span>01764-401650</span></li>
+                            <li><i class="ti-email"></i><span>ruhul.amin.sujon.1997@gmail.com</span></li>
                         </ul>
                     </div>
                 </div>
@@ -21,9 +21,6 @@
                             @else
                                 <li><a class="btn btn-danger btn-sm" href="{{url("/login")}}">Login</a></li>
                             @endif
-
-
-
                         </ul>
                     </div>
                 </div>
@@ -70,11 +67,11 @@
 </header>
 
 <script>
-    async function Category(){
-        let res=await axios.get("/CategoryList");
-        $("#CategoryItem").empty()
-        res.data['data'].forEach((item,i)=>{
-            let EachItem= ` <li><a class="dropdown-item nav-link nav_item" href="/by-category?id=${item['id']}">${item['categoryName']}</a></li>`
+    async function Category() {
+        let res = await axios.get("/CategoryList");
+        $("#CategoryItem").empty();
+        res.data['data'].forEach((item, i )=> {
+            let EachItem = ` <li><a class="dropdown-item nav-link nav_item" href="/by-category?id=${item['id']}">${item['categoryName']}</a></li>`
             $("#CategoryItem").append(EachItem);
         })
     }
