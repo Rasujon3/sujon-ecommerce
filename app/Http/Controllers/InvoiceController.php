@@ -78,15 +78,15 @@ class InvoiceController extends Controller
         }
     }
 
-    function InvoiceList(Request $request){
-        $user_id=$request->header('id');
-        return Invoice::where('user_id',$user_id)->get();
+    function InvoiceList(Request $request) {
+        $user_id = $request->header('id');
+        return Invoice::where('user_id', $user_id)->get();
     }
 
     function InvoiceProductList(Request $request){
-        $user_id=$request->header('id');
-        $invoice_id=$request->invoice_id;
-        return InvoiceProduct::where(['user_id'=>$user_id,'invoice_id'=>$invoice_id])->with('product')->get();
+        $user_id = $request->header('id');
+        $invoice_id = $request->invoice_id;
+        return InvoiceProduct::where(['user_id' => $user_id, 'invoice_id' => $invoice_id])->with('product')->get();
     }
 
     function PaymentSuccess(Request $request){
@@ -101,7 +101,7 @@ class InvoiceController extends Controller
     }
 
     function PaymentFail(Request $request){
-        return SSLCommerz::InitiateFail($request->query('tran_id'));
+        SSLCommerz::InitiateFail($request->query('tran_id'));
         return redirect('/profile');
     }
 
