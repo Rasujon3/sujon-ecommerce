@@ -24,26 +24,26 @@
     </div>
 </div>
 <script>
+    async function ByCategory() {
+        let searchParams = new URLSearchParams(window.location.search);
+        let id = searchParams.get('id');
 
-
-    async function ByCategory(){
-        let searchParams=new URLSearchParams(window.location.search);
-        let id=searchParams.get('id');
-
-
-        let res=await axios.get(`/ListProductByCategory/${id}`);
+        let res = await axios.get(`/ListProductByCategory/${id}`);
         $("#byCategoryList").empty();
-        res.data['data'].forEach((item,i)=>{
-            let EachItem=`<div class="col-lg-3 col-md-4 col-6">
+        if (res.data['data'].length === 0) {
+            $("#byCategoryList").append(`<h1>No Product Found</h1>`);
+        }
+        else {
+            res.data['data'].forEach((item, i)=>{
+                let EachItem = `<div class="col-lg-3 col-md-4 col-6">
                                 <div class="product">
                                     <div class="product_img">
                                         <a href="#">
-                                            <img src="${item['image']}" alt="product_img9">
+                                            <img src="${item['image']}" alt="${item['title']}">
                                         </a>
                                         <div class="product_action_box">
                                             <ul class="list_none pr_action_btn">
                                                 <li><a href="/details?id=${item['id']}" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
-
                                             </ul>
                                         </div>
                                     </div>
@@ -60,10 +60,11 @@
                                     </div>
                                 </div>
                             </div>`
-            $("#byCategoryList").append(EachItem);
+                $("#byCategoryList").append(EachItem);
 
-            $("#CatName").text( res.data['data'][0]['category']['categoryName']);
-        })
+                $("#CatName").text(res.data['data'][0]['category']['categoryName']);
+            });
+        }
     }
 
 </script>

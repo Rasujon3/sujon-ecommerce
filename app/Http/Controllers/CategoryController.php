@@ -13,8 +13,8 @@ class CategoryController extends Controller
 
     public function CategoryList():JsonResponse
     {
-        $data= Category::all();
-        return  ResponseHelper::Out('success',$data,200);
+        $data = Category::all();
+        return ResponseHelper::Out('success', $data,200);
     }
 
 
