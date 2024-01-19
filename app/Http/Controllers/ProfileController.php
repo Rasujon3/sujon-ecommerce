@@ -15,9 +15,9 @@ class ProfileController extends Controller
 
     public function CreateProfile(Request $request): JsonResponse
     {
-        $user_id=$request->header('id');
+        $user_id = $request->header('id');
         $request->merge(['user_id' =>$user_id]);
-        $data= CustomerProfile::updateOrCreate(
+        $data = CustomerProfile::updateOrCreate(
             ['user_id' => $user_id],
             $request->input()
         );
@@ -27,8 +27,8 @@ class ProfileController extends Controller
 
     public function ReadProfile(Request $request): JsonResponse
     {
-        $user_id=$request->header('id');
-        $data=CustomerProfile::where('user_id',$user_id)->with('user')->first();
+        $user_id = $request->header('id');
+        $data = CustomerProfile::where('user_id',$user_id)->with('user')->first();
         return ResponseHelper::Out('success',$data,200);
     }
 
