@@ -16,65 +16,66 @@ class InvoiceController extends Controller
     {
         DB::beginTransaction();
         try {
-
             //
-            $user_id=$request->header('id');
-            $user_email=$request->header('email');
+            $user_id = $request->header('id');
+            $user_email = $request->header('email');
 
-            $tran_id=uniqid();
-            $delivery_status='Pending';
-            $payment_status='Pending';
+            $tran_id = uniqid();
+            $delivery_status = 'Pending';
+            $payment_status = 'Pending';
 
-            $Profile=CustomerProfile::where('user_id','=',$user_id)->first();
-            $cus_details="Name:$Profile->cus_name,Address:$Profile->cus_add,City:$Profile->cus_city,Phone: $Profile->cus_phone";
-            $ship_details="Name:$Profile->ship_name,Address:$Profile->ship_add ,City:$Profile->ship_city ,Phone: $Profile->cus_phone";
+            $Profile = CustomerProfile::where('user_id', '=', $user_id)->first();
+            $cus_details = "Name: $Profile->cus_name, Address: $Profile->cus_add, City: $Profile->cus_city, Phone: $Profile->cus_phone";
+            $ship_details = "Name: $Profile->ship_name, Address: $Profile->ship_add, City: $Profile->ship_city, Phone: $Profile->cus_phone";
 
             // Payable Calculation
-            $total=0;
-            $cartList=ProductCart::where('user_id','=',$user_id)->get();
-            foreach ($cartList as $cartItem) {
-                $total=$total+$cartItem->price;
-            }
+//            $total = 0;
+//            $cartList = ProductCart::where('user_id', '=', $user_id)->get();
+//            foreach ($cartList as $cartItem) {
+//                $total = $total + $cartItem->price;
+//            }
+            // 2nd way
+            $total = ProductCart::where('user_id', $user_id)->sum('price');
 
-            $vat=($total*3)/100;
-            $payable=$total+$vat;
 
-            $invoice= Invoice::create([
-                'total'=>$total,
-                'vat'=>$vat,
-                'payable'=>$payable,
-                'cus_details'=>$cus_details,
-                'ship_details'=>$ship_details,
-                'tran_id'=>$tran_id,
-                'delivery_status'=>$delivery_status,
-                'payment_status'=>$payment_status,
-                'user_id'=>$user_id
+            $vat = ($total * 3) / 100;
+            $payable = $total + $vat;
+
+            $invoice = Invoice::create([
+                'total' => $total,
+                'vat' => $vat,
+                'payable' => $payable,
+                'cus_details' => $cus_details,
+                'ship_details' => $ship_details,
+                'tran_id' => $tran_id,
+                'delivery_status' => $delivery_status,
+                'payment_status' => $payment_status,
+                'user_id' => $user_id
             ]);
 
-            $invoiceID=$invoice->id;
+            $invoiceID = $invoice->id;
+            $cartList = ProductCart::where('user_id', '=', $user_id)->get();
 
             foreach ($cartList as $EachProduct) {
                 InvoiceProduct::create([
                     'invoice_id' => $invoiceID,
                     'product_id' => $EachProduct['product_id'],
-                    'user_id'=>$user_id,
-                    'qty' =>  $EachProduct['qty'],
-                    'sale_price'=>  $EachProduct['price'],
+                    'user_id' => $user_id,
+                    'qty' => $EachProduct['qty'],
+                    'sale_price' => $EachProduct['price'],
                 ]);
             }
 
-           $paymentMethod=SSLCommerz::InitiatePayment($Profile,$payable,$tran_id,$user_email);
+           $paymentMethod = SSLCommerz::InitiatePayment($Profile, $payable, $tran_id, $user_email);
 
            DB::commit();
 
-           return ResponseHelper::Out('success',array(['paymentMethod'=>$paymentMethod,'payable'=>$payable,'vat'=>$vat,'total'=>$total]),200);
-
+           return ResponseHelper::Out('success', array(['paymentMethod'=>$paymentMethod, 'payable'=>$payable, 'vat'=>$vat, 'total'=>$total]),200);
         }
         catch (Exception $e) {
             DB::rollBack();
             return ResponseHelper::Out('fail',$e,200);
         }
-
     }
 
     function InvoiceList(Request $request){
