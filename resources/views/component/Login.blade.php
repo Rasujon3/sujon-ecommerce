@@ -27,18 +27,20 @@
         let email = document.getElementById('email').value;
         if (email.length === 0) {
             alert("Email Required!");
+            return false;
         } else {
             $(".preloader").delay(90).fadeIn(100).removeClass('loaded');
-            let res=await axios.get("/UserLogin/"+email);
-            if(res.status===200){
-                sessionStorage.setItem('email',email);
-                window.location.href="/verify"
+            let res = await axios.get("/UserLogin/"+email);
+            if(res.status === 200) {
+                alert('Your OTP is 999999');
+                sessionStorage.setItem('email', email);
+                window.location.href = "/verify"
             }
-            else{
+            else {
+                alert('Your OTP is 999999');
                 $(".preloader").delay(90).fadeOut(100).addClass('loaded');
                 alert("Something Went Wrong");
             }
         }
-
     }
 </script>
