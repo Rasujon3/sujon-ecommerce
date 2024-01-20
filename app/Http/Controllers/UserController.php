@@ -11,18 +11,14 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-
     public function LoginPage()
     {
         return view('pages.login-page');
     }
-
     public function VerifyPage()
     {
         return view('pages.verify-page');
     }
-
-
     public function UserLogin(Request $request):JsonResponse
     {
         try {
@@ -37,8 +33,6 @@ class UserController extends Controller
             return ResponseHelper::Out('fail',$e,200);
         }
     }
-
-
     public function VerifyLogin(Request $request): JsonResponse
     {
             $UserEmail = $request->UserEmail;
@@ -46,7 +40,7 @@ class UserController extends Controller
 
             $verification = User::where('email', $UserEmail)->where('otp',$OTP)->first();
 
-            if($verification){
+            if($verification) {
                 User::where('email', $UserEmail)->where('otp',$OTP)->update(['otp'=>'0']);
                 $token = JWTToken::CreateToken($UserEmail,$verification->id);
                 return ResponseHelper::Out('success',"",200)->cookie('token',$token,60*24*30);
@@ -55,9 +49,7 @@ class UserController extends Controller
                 return ResponseHelper::Out('fail',null,401);
             }
     }
-
-    function UserLogout(){
-        return redirect('/')->cookie('token','',-1);
+    function UserLogout() {
+        return redirect('/')->cookie('token', '', -1);
     }
 }
-
