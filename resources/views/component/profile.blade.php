@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col-md-3 p-2">
-            <label class="form-label">Customer Name</label>
+            <label class="form-label" for="cus_name">Customer Name</label>
             <input type="text" id="cus_name" class="form-control form-control-sm"/>
         </div>
 
@@ -86,8 +86,6 @@
 
     <hr/>
 
-
-
     <div class="row">
         <div class="col-md-3">
             <button onclick="ProfileCreate()" class="btn btn-danger">Save Change</button>
@@ -99,8 +97,6 @@
 
 
 <script>
-
-
     async  function ProfileCreate(){
 
        let cus_name= document.getElementById('cus_name').value;
@@ -147,11 +143,9 @@
         else{
             alert("Request Fail")
         }
-
     }
 
       async function ProfileDetails() {
-
           let res = await axios.get("/ReadProfile");
           if (res.data['data'] !== null) {
 
@@ -170,13 +164,6 @@
               document.getElementById('ship_postcode').value = res.data['data']['ship_postcode']
               document.getElementById('ship_country').value = res.data['data']['ship_country']
               document.getElementById('ship_phone').value = res.data['data']['ship_phone']
-
-
           }
-
-
       }
-
-
-
 </script>

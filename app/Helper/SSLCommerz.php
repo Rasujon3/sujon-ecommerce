@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 class SSLCommerz
 {
-   static function  InitiatePayment($Profile, $payable, $tran_id, $user_email): array
+   static function  InitiatePayment($Profile, $payable, $tran_id, $user_email)
    {
       try{
           $ssl = SslcommerzAccount::first();
