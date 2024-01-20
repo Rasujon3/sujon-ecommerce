@@ -10,6 +10,7 @@
             await productDetails();
             await productReview();
             $(".preloader").delay(90).fadeOut(100).addClass('loaded');
+            await TopBrands();
         })()
     </script>
 @endsection
