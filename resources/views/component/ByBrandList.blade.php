@@ -24,26 +24,22 @@
     </div>
 </div>
 <script>
+    async function ByBrand() {
+        let searchParams = new URLSearchParams(window.location.search);
+        let id = searchParams.get('id');
 
-
-    async function ByBrand(){
-        let searchParams=new URLSearchParams(window.location.search);
-        let id=searchParams.get('id');
-
-        let res=await axios.get(`/ListProductByBrand/${id}`);
+        let res = await axios.get(`/ListProductByBrand/${id}`);
         $("#byBrandList").empty();
-        res.data['data'].forEach((item,i)=>{
-            let EachItem=`<div class="col-lg-3 col-md-4 col-6">
+        res.data['data'].forEach((item, i)=>{
+            let EachItem = `<div class="col-lg-3 col-md-4 col-6">
                                 <div class="product">
                                     <div class="product_img">
                                         <a href="#">
-                                            <img src="${item['image']}" alt="product_img9">
+                                            <img src="${item['image']}" alt="${item['title']}">
                                         </a>
                                         <div class="product_action_box">
                                             <ul class="list_none pr_action_btn">
-
                                                 <li><a href="/details?id=${item['id']}" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
-
                                             </ul>
                                         </div>
                                     </div>
@@ -62,10 +58,7 @@
                             </div>`
             $("#byBrandList").append(EachItem);
 
-            $("#BrandName").text( res.data['data'][0]['brand']['brandName']);
-
-
-        })
+            $("#BrandName").text(res.data['data'][0]['brand']['brandName']);
+        });
     }
-
 </script>
