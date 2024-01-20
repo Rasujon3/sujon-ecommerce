@@ -17,8 +17,6 @@
     </div><!-- END CONTAINER-->
 </div>
 
-
-
 <div class="mt-5">
     <div class="container my-5">
         <div id="byList" class="row">
@@ -26,14 +24,12 @@
     </div>
 </div>
 
-
-
 <script>
-    async function WishList(){
-        let res=await axios.get(`/ProductWishList`);
+    async function WishList() {
+        let res = await axios.get(`/ProductWishList`);
         $("#byList").empty();
-        res.data['data'].forEach((item,i)=>{
-            let EachItem=`<div class="col-lg-3 col-md-4 col-6">
+        res.data['data'].forEach((item, i) => {
+            let EachItem = `<div class="col-lg-3 col-md-4 col-6">
                                 <div class="product">
                                     <div class="product_img">
                                         <a href="#">
@@ -61,27 +57,23 @@
                                 </div>
                             </div>`
             $("#byList").append(EachItem);
-        })
-
+        });
 
         $(".remove").on('click',function () {
-            let id= $(this).data('id');
+            let id = $(this).data('id');
             RemoveWishList(id);
-        })
-
-
+        });
     }
 
-  async function RemoveWishList(id){
+  async function RemoveWishList(id) {
       $(".preloader").delay(90).fadeIn(100).removeClass('loaded');
-        let res=await axios.get("/RemoveWishList/"+id);
+        let res = await axios.get("/RemoveWishList/"+id);
       $(".preloader").delay(90).fadeOut(100).addClass('loaded');
-        if(res.status===200) {
+        if(res.status === 200) {
             await WishList();
         }
-        else{
-            alert("Request Fail")
+        else {
+            alert("Request Fail");
         }
     }
-
 </script>
