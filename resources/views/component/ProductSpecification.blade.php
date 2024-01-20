@@ -36,7 +36,6 @@
                     <button onclick="AddReview()" class="btn btn-danger mt-3 btn-sm">Submit</button>
                 </div>
 
-
             </div>
         </div>
     </div>
